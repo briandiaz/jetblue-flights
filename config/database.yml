@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: d93s6p99805ruv
+  pool: 5
+  username: fyicrguwxmnbsk
+  password: QoYREk9ODSwNL-bjG657Jlr0yp
+  host: ec2-54-197-230-210.compute-1.amazonaws.com
+  port: 5432
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
