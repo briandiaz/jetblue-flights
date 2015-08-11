@@ -77,7 +77,7 @@ function setAirplaneImage(angle){
         imagePath = "http://i.imgur.com/o4gDhwv.png";
     }
     console.log(imagePath);
-    return "../"+imagePath;
+    return imagePath;
 }
 
 function radians(n) {
