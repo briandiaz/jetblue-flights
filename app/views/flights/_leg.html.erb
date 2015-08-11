@@ -1,0 +1,24 @@
+
+<div class="panel <%= leg_panel_class(leg.status) %>">
+    <div class="panel-heading" role="tab" id="<%= "#{heading_id}" %>">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<%= "#{collapse_id}" %>" aria-expanded="true" aria-controls="<%= "#{collapse_id}" %>">
+          <%= "##{leg.number} #{leg.departure.airport.name} - (#{leg.departure.airport.country} #{(leg.departure.airport.city)}) [<b>#{number_to_percentage(leg.progress, precision: 1)}</b>]".html_safe %>
+        </a>
+      </h4>
+    </div>
+    <div id="<%= "#{collapse_id}" %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= "#{heading_id}" %>">
+      <div class="panel-body">
+            
+        <p>Departure: <%= leg.departure.airport.name %> (<%= leg.departure.airport.city %>)</p>
+        <p>Lat Long: <%= leg.departure.airport.latitude %> (<%= leg.departure.airport.longitude %>)</p>
+        <p>Tme:<%= leg.departure.actual_takeoff.strftime("%a, %e %b %Y %H:%M:%S %z") %> </p>
+        <p>Arrival: <%= leg.arrival.airport.name %> (<%= leg.arrival.airport.city %>)</p>
+        <p>Lat Long: <%= leg.arrival.airport.latitude %> (<%= leg.arrival.airport.longitude %>)</p>
+        <p>Tme:<%= leg.arrival.actual_takeoff.strftime("%a, %e %b %Y %H:%M:%S %z") %> </p>
+        <p>Status: <%= leg.status %></p>
+        <p>Progress: <%= leg.progress %></p>
+        
+      </div>
+    </div>
+</div>

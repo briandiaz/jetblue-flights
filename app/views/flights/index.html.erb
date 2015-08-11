@@ -1,0 +1,148 @@
+
+<div class="row">
+  <div class="col-xs-6 full-height" >
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#cities" aria-controls="profile" role="tab" data-toggle="tab">by Cities</a></li>
+        <li role="presentation"><a href="#flight_number" aria-controls="flight_number" role="tab" data-toggle="tab">by Flight Number</a></li>
+    </ul>
+    
+    <!-- Tab panes -->
+    <div class="tab-content">
+        
+        <div role="tabpanel" class="tab-pane active" id="cities">
+            <form class="form-inline ">
+                <div class="row">
+                    <div class="col-md-12">
+                        <datalist id="airport_list">
+                            <% @airports.each do |airport| %>
+                                <option value="<%= airport.city %>, <%= airport.country %>, <%= airport.name %> | <%= airport.iata %> ">
+                            <% end %>
+                        </datalist>
+                        <div class="col-md-4 col-xs-12">
+                          <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><%= image_tag("airplane_takeoff.png", size: "16x16", alt: "Origin") %></span>
+                                <input type="text" class="form-control airport_code" list="airport_list" id="origin" name="origin" placeholder="Insert Origin Airport IATA Code" value="<%= params[:origin] if params[:origin] %>" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><%= image_tag("airplane_landing.png", size: "16x16", alt: "Destination") %></span>
+                                    <input type="text" class="form-control airport_code" list="airport_list" id="destination" name="destination" placeholder="Insert Destination Airport IATA Code" value="<%= params[:destination] if params[:destination] %>" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                          <div class="row">
+                              <div class="col-md-8">
+                                  <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control datepicker" id="date" name="date" placeholder="Select the Date" value="<%= params[:date] if params[:date] %>" required>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                  <button type="submit" class="btn btn-default">Search</button>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="flight_number">
+            <form class="form-inline">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-plane"></i></span>
+                                    <input type="text" class="form-control datepicker" id="flight" name="flight" placeholder="Insert the Flight Number" value="<%= params[:flight] if params[:flight] %>" required>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control datepicker" id="date" name="date" placeholder="Select the Date" value="<%= params[:date] if params[:date] %>" required>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <button type="submit" class="btn btn-default">Search</button>
+                              </div>
+                          </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <% id = 0 %>
+    
+    <% @flights.each do |flight| %>
+    
+        <%= render :partial => "flights/flight", :locals => { flight: flight, id: id } %>
+        
+    <% end %>
+
+    </div>
+    <div class="col-xs-6" id="map-container">
+        
+    </div>
+    
+</div>
+
+<div id="map-canvas"></div>
+
+<% content_for :javascripts do %>
+
+<script type="text/javascript">
+
+$('.datepicker').datepicker({
+    format: "yyyy-mm-dd"
+});
+
+var flights =  [
+        <% @flights.each do |flight|  %> 
+            [ <% flight.legs.each do |leg| %>
+                {
+                    number: <%= leg.number %>,
+                    status: "<%= leg.status %>",
+                    progress: <%= leg.progress %>,
+                    departure: {
+                        name: "<%= leg.departure.airport.name %>",
+                        display_text: "<%= "#{leg.departure.airport.name} - (#{leg.departure.airport.country} #{(leg.departure.airport.city)})" %>",
+                        coordinates: new google.maps.LatLng(<%= leg.departure.airport.latitude %>, <%= leg.departure.airport.longitude %>)
+                    },
+                    arrival: {
+                        name: "<%= leg.arrival.airport.name %>",
+                        display_text: "<%= "#{leg.arrival.airport.name} - (#{leg.arrival.airport.country} #{(leg.arrival.airport.city)})" %>",
+                        coordinates: new google.maps.LatLng(<%= leg.arrival.airport.latitude %>, <%= leg.arrival.airport.longitude %>)
+                    },
+                    current_location: {
+                        name: "<%= leg.arrival.airport.name %>",
+                        display_text: "<%= "#{leg.current_location[:latitude]}, #{leg.current_location[:longitude]}" %>",
+                        coordinates: new google.maps.LatLng(<%= leg.current_location[:latitude] %>, <%= leg.current_location[:longitude] %>)
+                    }
+                },
+              <% end %>
+            ],
+        <% end%>
+];
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<% end %>

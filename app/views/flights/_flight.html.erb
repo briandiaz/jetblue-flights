@@ -1,0 +1,12 @@
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel">
+        <% flight.legs.each do |leg| %>
+        
+            <%= render :partial => "flights/leg", :locals => { leg: leg, heading_id: leg_heading_id(id), collapse_id: leg_collapse_id(id) } %>
+            
+            <% id +=1 %>
+            
+        <% end %>
+    </div>
+</div>
