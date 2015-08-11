@@ -29,14 +29,14 @@ function createLegMarker(leg, map){
         map: map,
         animation: google.maps.Animation.DROP,
         title: leg.display_text,
-        icon: createImageMarker("../assets/airport.png")
+        icon: createImageMarker("http://i.imgur.com/1jYzN2l.png")
     });
     arrival_marker = new google.maps.Marker({
         position: leg.arrival.coordinates,
         map: map,
         animation: google.maps.Animation.DROP,
         title: leg.display_text,
-        icon: createImageMarker("../assets/airport.png")
+        icon: createImageMarker("http://i.imgur.com/1jYzN2l.png")
     });
     current_location_marker = new google.maps.Marker({
         position: leg.current_location.coordinates,
@@ -50,31 +50,31 @@ function createLegMarker(leg, map){
 
 function setAirplaneImage(angle){
     
-    var imagePath = "assets/airplane_0.png";
+    var imagePath = "";
     
     if(angle >= 0 && angle <= 45){
-        imagePath = "assets/airplane_0.png";
+        imagePath = "http://i.imgur.com/o4gDhwv.png";
     }
     else if(angle >= 45 && angle <= 90){
-        imagePath = "assets/airplane_90.png";
+        imagePath = "http://i.imgur.com/Dpg30es.png";
     }
     else if(angle >= 91 && angle <= 135){
-        imagePath = "assets/airplane_135.png";
+        imagePath = "http://i.imgur.com/rPqWd63.png";
     }
     else if(angle >= 136 && angle <= 180){
-        imagePath = "assets/airplane_180.png";
+        imagePath = "http://i.imgur.com/12Mywzq.png";
     }
     else if(angle >= 181 && angle <= 225){
-        imagePath = "assets/airplane_225.png";
+        imagePath = "http://i.imgur.com/cvfzOzR.png";
     }
     else if(angle >= 226 && angle <= 270){
-        imagePath = "assets/airplane_270.png";
+        imagePath = "http://i.imgur.com/SI2jnaL.png";
     }
     else if(angle >= 271 && angle <= 315){
-        imagePath = "assets/airplane_315.png";
+        imagePath = "http://i.imgur.com/gExcxvI.png";
     }
     else{
-        imagePath = "assets/airplane_0.png";
+        imagePath = "http://i.imgur.com/o4gDhwv.png";
     }
     console.log(imagePath);
     return "../"+imagePath;
