@@ -93,6 +93,8 @@
     <% @flights.each do |flight| %>
     
         <%= render :partial => "flights/flight", :locals => { flight: flight, id: id } %>
+
+        <% id += 1 %>
         
     <% end %>
 
