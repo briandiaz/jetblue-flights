@@ -1,14 +1,12 @@
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel">
-  		<% leg_id = id %>
 
         <% flight.legs.each do |leg| %>
         
             <%= render :partial => "flights/leg", :locals => { leg: leg, heading_id: leg_heading_id(leg_id), collapse_id: leg_collapse_id(leg_id) } %>
             
-            <% leg_id = id+1 %>
-            <% leg_id += 1 %>
+            <% leg_id = rand(Time.now.to_i) + id %>
             
         <% end %>
     </div>
